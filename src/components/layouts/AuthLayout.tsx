@@ -4,9 +4,7 @@ import { Box } from "@mui/material";
 
 interface Props extends PropsWithChildren {
     title: string;
-
 }
-
 export const AuthLayout = ({ title = '', children }: Props) => {
     return (
         <>

@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import { red,  } from '@mui/material/colors';
 
 
 export const lightTheme = createTheme({
@@ -14,6 +13,7 @@ export const lightTheme = createTheme({
     info: {
       main: '#fff'
     }
+    
   },
   components: {
     MuiLink: {
@@ -51,7 +51,19 @@ export const lightTheme = createTheme({
       }
     },
 
-
+    MuiGrid:{
+      styleOverrides:{
+        root:{
+          width:"100%",
+          margin:"0",
+          padding:"0"
+        },
+        item:{
+          padding:'0',
+          paddingLeft:"0"
+        }
+      }
+    },
     MuiButton: {
       defaultProps: {
         variant: 'contained',

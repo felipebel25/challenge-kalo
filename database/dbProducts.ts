@@ -6,7 +6,6 @@ export const getProductBySlug = async (slug: string | string[]): Promise<IProduc
     await db.connect();
     const product = await Product.findOne({ slug }).lean()
     await db.disconnect();
-
     if (!product) {
         return null;
     }
@@ -15,7 +14,6 @@ export const getProductBySlug = async (slug: string | string[]): Promise<IProduc
 
 export interface ProductSlug {
     slug: string;
-
 }
 
 export const getAllProductSlugs = async (): Promise<ProductSlug[]> => {
@@ -48,6 +46,4 @@ export const  getAllProducts = async (): Promise<IProduct[]> => {
     await db.disconnect()
 
     return JSON.parse(JSON.stringify(products))
-
-
 } 

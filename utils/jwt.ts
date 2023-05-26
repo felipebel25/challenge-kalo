@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 
-
 export const signToken = (_id: string, email: string) => {
     const sign = process.env.JWT_SECRET_SEED
     if (!sign) throw new Error('Ther isnt seed of JWT in .env')

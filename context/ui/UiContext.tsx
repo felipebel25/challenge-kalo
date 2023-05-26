@@ -1,6 +1,5 @@
 import { createContext } from 'react';
 
-
 export interface ContextProps {
      isMenuOpen: boolean;
      //methods

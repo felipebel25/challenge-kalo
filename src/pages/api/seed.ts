@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { db, initialData } from 'database'
-import { Product , User } from 'models'
-import Palondromo from 'models/palindromo'
+import { Product , User} from 'models'
 
 type Data = {
     message: string
@@ -9,9 +8,9 @@ type Data = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
-    if (process.env.NODE_ENV === 'production') {
-        return res.status(401).json({ message: 'No tiene acceso  este servicio' })
-    }
+    // if (process.env.NODE_ENV === 'production') {
+    //     return res.status(401).json({ message: 'No tiene acceso  este servicio' })
+    // }
 
     await db.connect()
     
@@ -21,8 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     await Product.deleteMany();
     await Product.insertMany(initialData.products);
 
-    await Palondromo.deleteMany();
-    await Palondromo.insertMany(initialData.palondromo);
 
     await db.disconnect()
 

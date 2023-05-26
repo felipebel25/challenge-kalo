@@ -1,6 +1,21 @@
 import { IProduct } from '@/interfaces';
 import mongoose, { Schema, model, Model } from 'mongoose';
-
+const reviewSchema = new mongoose.Schema({
+    user: {
+      type: String,
+      required: true
+    },
+    stars: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 5
+    },
+    description: {
+      type: String,
+      required: true
+    }
+  });
 
 const productSchema = new Schema({
     description: { type: String, required: true },
@@ -30,12 +45,12 @@ const productSchema = new Schema({
             message: "This {VALUE} is not allow"
         },
         required: true
-    }
+    },
+    reviews: [reviewSchema]
 }, {
     timestamps: true
 })
 
-//todo: crear indice de mongo
 productSchema.index({ title: 'text', tags: 'text' })
 
 const Product: Model<IProduct> = mongoose.models.Product || model('Product', productSchema);

@@ -2,6 +2,7 @@ export interface IProduct {
     _id: string;
     description: string;
     images: string[];
+
     inStock: number;
     price: number;
     sizes: ISize[];
@@ -12,7 +13,13 @@ export interface IProduct {
     gender: 'men' | 'women' | 'kid' | 'unisex',
     createdAt: string;
     updatedAt: string;
+    reviews: IReview[]
 
 }
 export type ISize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 export type IType = 'shirts' | 'pants' | 'hoodies' | 'hats';
+export type IReview = {
+    user: string;
+    stars: number;
+    description: string;
+}

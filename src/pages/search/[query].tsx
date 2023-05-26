@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next'
+import { Box, Grid, Typography, capitalize } from "@mui/material"
 
+import { getAllProducts, getProductsByTerm } from 'database/dbProducts'
 import { ShopLayout } from "@/components/layouts"
 import { ProductList } from "@/components/products"
-import { Box, Grid, Typography, capitalize } from "@mui/material"
-import { getAllProducts, getProductsByTerm } from 'database/dbProducts'
 import { IProduct } from '@/interfaces'
 
 interface Props {
@@ -59,10 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     let products = await getProductsByTerm(query)
     const foundProducts = products?.length > 0
 
-    //todo: retornar otros productos
     if (!foundProducts)  products = await getAllProducts()
-    
-
     return {
         props: {
             products,

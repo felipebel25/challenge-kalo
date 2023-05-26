@@ -17,7 +17,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
                 message: "Bad request"
             })
     }
-    res.status(200).json({ message: 'Example' })
 }
 
 
@@ -31,7 +30,7 @@ const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 
     await db.connect()
-    const products = await Product.find(condition).select('title images price inStock slug -_id').lean()
+    const products = await Product.find(condition).select('title images price inStock slug reviews -_id').lean()
 
     await db.disconnect()
 

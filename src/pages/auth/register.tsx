@@ -10,6 +10,7 @@ import { Box, Button, Chip, Grid, TextField, Typography } from "@mui/material"
 import { AuthContext } from "context";
 import { getSession, signIn } from "next-auth/react";
 import { GetServerSideProps } from "next";
+import { logEvent } from "utils/gaUtils";
 
 type FormData = {
     name: string;
@@ -28,7 +29,6 @@ const RegisterPage = () => {
     const { registerUser } = useContext(AuthContext)
 
     const onRegisterForm = async ({ email, name, password }: FormData) => {
-
         // se registra
         const { hasError, message } = await registerUser(name, email, password)
 
@@ -44,6 +44,7 @@ const RegisterPage = () => {
         // se logea el recien usuario registrado
         await signIn('credentials', { email: email, password: password })
 
+        logEvent('register',`register`)
 
     }
     return (

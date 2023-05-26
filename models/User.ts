@@ -19,7 +19,6 @@ const userSchema = new Schema({
     timestamps: true
 })
 
-//todo: crear indice de mongo
 userSchema.index({ title: 'text', tags: 'text' })
 const User: Model<IUser> = mongoose.models.User || model('User', userSchema);
 

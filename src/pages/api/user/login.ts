@@ -21,7 +21,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
     switch (req.method) {
         case "POST":
             return loginUser(req, res)
-
             break;
 
         default:

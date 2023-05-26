@@ -1,18 +1,10 @@
 import NextAuth from "next-auth"
-import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials";
 import { checkUserEmailPassword, oAuthToDbUser } from "database/dbUsers";
-
-const clientId = process.env.GITHUB_ID || ''
-const clientSecret = process.env.GITHUB_SECRET || ''
 
 // Configure one or more authentication providers
 export const authOptions = {
   providers: [
-    GithubProvider({
-      clientId,
-      clientSecret,
-    }),
     // ...add more providers here
     CredentialsProvider({
       name: "Custom Login",
@@ -23,8 +15,8 @@ export const authOptions = {
       },
       async authorize(credentials: any) {
         const { email, password } = credentials
-
         const result = await checkUserEmailPassword(email, password)
+        console.log(result);
         return result as any
       }
     })
@@ -55,7 +47,6 @@ export const authOptions = {
           default:
             break;
         }
-
       }
       return token
     },
@@ -63,7 +54,6 @@ export const authOptions = {
       session.acessToken = token.acessToken
       session.user = token.user as any;
       return session
-
     }
   }
 }

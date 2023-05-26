@@ -1,7 +1,6 @@
 import { IProduct } from '@/interfaces'
 import { db } from 'database'
 import { Product } from 'models'
-import mongoose from 'mongoose'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data =

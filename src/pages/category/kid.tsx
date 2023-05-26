@@ -10,23 +10,20 @@ export default function WomenProductsPage() {
 
 
     return (
-        <>
-            <ShopLayout title={"Teslita - Kid Section"} pageDescription={"Encuentra los mejores productos de teslita para ninos, jovenes aqui"} >
-                <Typography variant="h1" component='h1' sx={{ mb: 1 }}>Tienda</Typography>
-                <Typography variant="h5" component='h5' sx={{ mb: 7 }}>Todos los productos</Typography>
+        <ShopLayout title={"Teslita - Kid Section"} pageDescription={"Encuentra los mejores productos de teslita para ninos, jovenes aqui"} >
+            <Typography variant="h1" component='h1' sx={{ mb: 1 }}>Tienda</Typography>
+            <Typography variant="h5" component='h5' sx={{ mb: 7 }}>Todos los productos</Typography>
+            <Grid container spacing={4}>
+                {isLoading
+                    ?
+                    <FullScreenLoading />
+                    :
 
-                <Grid container spacing={4}>
-                    {isLoading
-                        ?
-                        <FullScreenLoading />
-                        :
-
-                        <ProductList
-                            products={products}
-                        />
-                    }
-                </Grid>
-            </ShopLayout>
-        </>
+                    <ProductList
+                        products={products}
+                    />
+                }
+            </Grid>
+        </ShopLayout>
     )
 }

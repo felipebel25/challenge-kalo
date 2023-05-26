@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
+import NextLink from "next/link";
 import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from "@mui/material"
 import { IProduct } from "@/interfaces"
-import NextLink from "next/link";
+import { logEvent } from "utils/gaUtils";
 
 interface Props {
     product: IProduct;
@@ -21,13 +22,13 @@ export const ProductCard = ({ product }: Props) => {
     return (
         <Grid
             item
-            xs={6}
+            xs={5}
             sm={4}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
 
         >
-            <NextLink href={`/product/${product.slug}`} passHref prefetch={false}>
+            <NextLink onClick={() => logEvent('visit product', `product ${product.title}`)} href={`/product/${product.slug}`} passHref prefetch={false}>
                 <Link>
                     <Card>
                         <CardActionArea>

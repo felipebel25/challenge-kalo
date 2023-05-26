@@ -1,6 +1,6 @@
+import bcrypt from 'bcryptjs'
 import { db } from "database"
 import { User } from "models"
-import bcrypt from 'bcryptjs'
 
 export const checkUserEmailPassword = async (email: string, password: string) => {
     await db.connect()
@@ -10,10 +10,7 @@ export const checkUserEmailPassword = async (email: string, password: string) =>
     if (!user) return null;
     // verfy the password
     if (!bcrypt.compareSync(password, user.password!)) return null;
-
-
     const { _id, role, name } = user
-
     return {
         _id,
         name,
@@ -35,9 +32,6 @@ export const oAuthToDbUser = async (oAuthEmail: string, oAuthName: string) => {
     const newUser = new User({ email: oAuthEmail, name: oAuthName, password: "@", role: 'client' })
     await newUser.save()
     await db.disconnect()
-
-
     const { role, name, email, _id, } = newUser
     return { role, name, email, _id }
-
 }

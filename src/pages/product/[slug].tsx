@@ -1,14 +1,10 @@
-import { useContext, useState } from "react"
 import { GetStaticProps, GetStaticPropsContext } from "next"
 
 import { ShopLayout } from "@/components/layouts"
-import { ProductSlideShow, SizeSelector } from "@/components/products"
-import { ItemCounter } from "@/components/ui/ItemCounter"
-import { IProduct, ICartProduct, ISize } from "@/interfaces"
-import { Box, Button, Chip, Grid, Typography } from "@mui/material"
+import { ProductSlideShow } from "@/components/products"
+import { IProduct } from "@/interfaces"
+import { Box, Grid, Rating, Typography } from "@mui/material"
 import { getAllProductSlugs, getProductBySlug } from "database/dbProducts"
-import { CartContext } from "../../../context/cart/CartContext"
-import { useRouter } from "next/router"
 
 
 interface Props {
@@ -17,29 +13,6 @@ interface Props {
 
 
 const ProductPage = ({ product }: Props) => {
-
-  const { push } = useRouter()
-  const { addProductToCart } = useContext(CartContext)
-  const [tempCartProduct, setTempCartProduct] = useState<ICartProduct>({
-    _id: product._id,
-    images: product.images[0],
-    inStock: product.inStock,
-    price: product.price,
-    size: undefined,
-    slug: product.slug,
-    title: product.title,
-    gender: product.gender,
-    quantity: 1,
-  })
-
-  const onSizeSelector = (size: ISize) => setTempCartProduct(s => ({ ...s, size }))
-  const onSelectCount = (quantity: number) => setTempCartProduct(s => ({ ...s, quantity }))
-
-  const onAddProductCart = () => {
-    addProductToCart(tempCartProduct)
-    push('/cart')
-  }
-
   return (
     <ShopLayout title={product.title} pageDescription={product.description}>
       <Grid container spacing={3}>
@@ -53,40 +26,19 @@ const ProductPage = ({ product }: Props) => {
             {/* -----------------Titulos----------------------*/}
             <Typography variant="h1" component='h1'>{product.title}</Typography>
             <Typography variant="subtitle1" component='h2'>{`$${product.price}`}</Typography>
-            {/* -----------------Cantidad-------------------- */}
-            <Box sx={{ my: 2 }}>
-              <Typography variant="subtitle2">Cantidad </Typography>
-              {/* ------ItemCounter------ */}
-              <ItemCounter
-                currentValue={tempCartProduct.quantity}
-                maxValue={tempCartProduct.inStock}
-                onSelectCount={onSelectCount}
-
-              />
-              <SizeSelector
-                selectedSize={tempCartProduct.size}
-                sizes={product.sizes}
-                onSelectedSize={onSizeSelector}
-              />
-
-            </Box>
-            {/* --------Add to car---------- */}
-            {product.inStock === 0 ?
-              <>
-                {/* ----------Chip si no el producto no esta disponible------------- */}
-                <Chip label='No hay disponibles' color="error" variant="outlined" />
-              </>
-
-              : (
-                <Button color='secondary' className='circular-btn' onClick={onAddProductCart}>
-                  {tempCartProduct.size ? 'Agregar al carrito' : "Selecciona una talla"}
-                </Button>
-              )}
             {/* -------Descripcion----------- */}
             <Box sx={{ mt: 3 }}>
               <Typography variant="subtitle2">Descripcion</Typography>
               <Typography variant="body2">{product.description}</Typography>
             </Box>
+            <Typography sx={{ mt: 3 }} variant="subtitle2">Reseñas:</Typography>
+            {product.reviews.map((review) => (
+              <Box key={review.description} sx={{ border: "1px solid gray", borderRadius: "1rem", padding: "2%", m: '2% 0' }}>
+                <Rating value={review.stars} />
+                <Typography variant="subtitle2">{review.user}:</Typography>
+                <Typography  variant="body2">{review.description}</Typography>
+              </Box>
+            ))}
 
           </Box>
         </Grid>
@@ -125,37 +77,5 @@ export const getStaticProps: GetStaticProps = async (ctx: GetStaticPropsContext)
     revalidate: 60 * 60 * 24
   }
 }
-// // You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-
-// * ssr
-// import { GetServerSideProps } from 'next'
-// import { getProductBySlug } from "database"
-
-// export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-
-//   const slug = query.slug || ''
-
-//   const product = await getProductBySlug(slug)
-//   if (!product) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   return {
-//     props: {
-//       product
-
-//     }
-//   }
-// }
-// * getStaticPaths
-// * revalidar cada 24 horas
-// * blocking
-
 
 export default ProductPage
